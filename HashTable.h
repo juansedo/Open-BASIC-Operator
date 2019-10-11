@@ -1,3 +1,5 @@
+#ifndef HASH_TABLE
+#define HASH_TABLE
 #include <iostream>
 #include <cmath>
 
@@ -38,3 +40,4 @@ int main() {
     cout << v.get("num1");
     return 0;
 }
+#endif
