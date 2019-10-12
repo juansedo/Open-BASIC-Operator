@@ -7,7 +7,7 @@ using namespace std;
 
 class Variables {
 private:
-    string key;
+    //string key;
     float* values;
     int size;
 
