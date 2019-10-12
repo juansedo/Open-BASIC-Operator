@@ -104,12 +104,14 @@ int main () {
 			}
 			else if (word.at(0) == '~') {
 				/************************PRINT OR READ FUNCTION***************/
-				//~Print "Hello world!"
+				//~Print var
 				//~Print 2
 				//~Read
 				/*Print function comprobation*/
 				if (compareStr(word.substr(1), "Print")) {
 					ss >> word;
+
+					/*Agregar caso de variable y de número*/
 					if (ss) cout << word << endl;
 					else cout << endl;
 				}
@@ -148,7 +150,7 @@ int main () {
 					return 0;
 				}
 
-				/**/
+				/*KY*/
 			}
 			
 			ss.str("");
@@ -183,8 +185,6 @@ bool isFuncName(string str) {
                 case 'h': case 'i': case 'j': case 'k': case 'l': case 'm': case 'n':
                 case 'o': case 'p': case 'q': case 'r': case 's': case 't': case 'u':
                 case 'v': case 'w': case 'x': case 'y': case 'z':
-                //case 'Á': case 'É': case 'Í': case 'Ó': case 'Ú': case 'Ñ':
-                //case 'á': case 'é': case 'í': case 'ó': case 'ú': case 'ñ':
 				case '0': case '1': case '2': case '3': case '4': case '5':
 				case '6': case '7': case '8': case '9':
 				case '!': case '#': case '$': case '%': case '&':
@@ -223,8 +223,6 @@ bool isVarName(string str) {
                 case 'h': case 'i': case 'j': case 'k': case 'l': case 'm': case 'n':
                 case 'o': case 'p': case 'q': case 'r': case 's': case 't': case 'u':
                 case 'v': case 'w': case 'x': case 'y': case 'z':
-                //case 'Á': case 'É': case 'Í': case 'Ó': case 'Ú': case 'Ñ':
-                //case 'á': case 'é': case 'í': case 'ó': case 'ú': case 'ñ':
 				case '0': case '1': case '2': case '3': case '4': case '5':
 				case '6': case '7': case '8': case '9':
 				case '!': case '#': case '$': case '<': case '>': case ':':
