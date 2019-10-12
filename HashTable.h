@@ -32,12 +32,4 @@ public:
         return values[hashFunction(k)];
     }
 };
-
-int main() {
-    Variables v = Variables();
-    v.put("num1", 25.0);
-
-    cout << v.get("num1");
-    return 0;
-}
 #endif
