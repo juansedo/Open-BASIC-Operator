@@ -1,0 +1,16 @@
+Sub Main
+    @Núm1 <= Num
+    @Núm2 <= Num
+    @Resultado <= Num
+    
+    Núm1 = 5
+    Resultado = Núm1 + 1
+    ~Print Resultado
+    
+    Resultado = 6 * Resultado + 3
+    ~Imprimir Resultado
+    
+    @Texto <= String
+    
+    Texto = ~Read
+End Sub
