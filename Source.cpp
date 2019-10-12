@@ -58,17 +58,19 @@ int main () {
 			return 0;
 		}
 
+		ss.str("");
+		ss.clear();
+
 		for (int i = 2; getline (myfile, line); i++) {
       		/*Line is put into a stream*/
 			ss << line;
-			word = "";
+			ss >> word;
 			string newVariable;
 
-			if (line.at(0) == '@') {
+			if (word.at(0) == '@') {
 				/************************DECLARATION**************************/
 				//@var <= Num
 				/*Name of variable*/
-				ss >> word;
 				newVariable = word.substr(1);
 				if (compareStr(newVariable, "Num")) {
 					cout << "Error: Num is an OBO keyword, use another name in line " << i << endl;
@@ -100,13 +102,12 @@ int main () {
 				/*Variable created*/
 				vars.put(newVariable, 0);
 			}
-			else if (line.at(0) == '~') {
+			else if (word.at(0) == '~') {
 				/************************PRINT OR READ FUNCTION***************/
 				//~Print "Hello world!"
 				//~Print 2
 				//~Read
 				/*Print function comprobation*/
-				ss >> word;
 				if (compareStr(word.substr(1), "Print")) {
 					ss >> word;
 					if (ss) cout << word << endl;
@@ -129,7 +130,6 @@ int main () {
 				//num = var + 3
 				/*Name of variable to assign*/
 				string var_to_assign;
-				ss >> word;
 				try {
 					vars.get(word);
 					var_to_assign = word;
@@ -140,14 +140,23 @@ int main () {
 					return 0;
 				}
 				
+				/*Assignation operator*/
+				ss >> word;
+				if (!compareStr(word, "=")) {
+					cout << "Error: expected \"=\" in line " << i << endl;
+					myfile.close();
+					return 0;
+				}
 
+				/**/
 			}
+			
+			ss.str("");
+			ss.clear();
     	}
     	myfile.close();
   	}
   	else cout << "Error: unable to open file"; 
-	
-	//system("pause");
 	return 0;
 }
 
