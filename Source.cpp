@@ -4,6 +4,12 @@
 #include <string>
 using namespace std;
 
+bool isFuncName(string str);
+
+bool isVarName(string str);
+
+bool compareStr(string str1, string str2);
+
 int main () {
 	string line;
 	bool isDeclaration;
@@ -13,7 +19,7 @@ int main () {
   	ifstream myfile ("./BNF and examples/example.obo");
   	if (myfile.is_open()) {
     	getline(myfile, line);
-		Variables v;
+		Variables vars;
 		stringstream ss(line);
 		string word;
 
@@ -24,7 +30,7 @@ int main () {
 		ss >> word;
 		if (!compareStr(word, "Begin")) {
 			/*If it's empty, it throws no error*/
-			if (!word.empty) cout << "Error: missing \"Begin\" keyword in line 01" << endl;
+			if (!(word.empty())) cout << "Error: missing \"Begin\" keyword in line 01" << endl;
 			myfile.close();
 			return 0;
 		}
@@ -43,7 +49,6 @@ int main () {
 			myfile.close();
 			return 0;
 		}
-
 
 		/*It must have no more words*/
 		ss >> word;
@@ -77,7 +82,6 @@ int main () {
 					return 0;
 				}
 
-
 				/*Assignation operator*/
 				ss >> word;
 				if (!compareStr(word, "<=")) {
@@ -93,16 +97,51 @@ int main () {
 					myfile.close();
 					return 0;
 				}
+				/*Variable created*/
+				vars.put(newVariable, 0);
+			}
+			else if (line.at(0) == '~') {
+				/************************PRINT OR READ FUNCTION***************/
+				//~Print "Hello world!"
+				//~Print 2
+				//~Read
+				/*Print function comprobation*/
+				ss >> word;
+				if (compareStr(word.substr(1), "Print")) {
+					ss >> word;
+					if (ss) cout << word << endl;
+					else cout << endl;
+				}
+				
+				else if (compareStr(word.substr(1), "Read")) {
+					string aux;
+					cin >> aux;
+				}
 
-
-
-
+				else {
+					cout << "Warning: unknown function in line " << i << endl;
+					continue;
+				}
+			}
+			else {
+				/************************ASSIGNATION**************************/
+				//var = 5 + 2
+				//num = var + 3
+				/*Name of variable to assign*/
+				string var_to_assign;
+				ss >> word;
+				try {
+					vars.get(word);
+					var_to_assign = word;
+				}
+				catch (const char* e) {
+					cout << e << "in line " << i << endl;
+					myfile.close();
+					return 0;
+				}
+				
 
 			}
-			/*
-			if () {
-
-			}*/
     	}
     	myfile.close();
   	}
@@ -135,8 +174,8 @@ bool isFuncName(string str) {
                 case 'h': case 'i': case 'j': case 'k': case 'l': case 'm': case 'n':
                 case 'o': case 'p': case 'q': case 'r': case 's': case 't': case 'u':
                 case 'v': case 'w': case 'x': case 'y': case 'z':
-                case 'Á': case 'É': case 'Í': case 'Ó': case 'Ú': case 'Ñ':
-                case 'á': case 'é': case 'í': case 'ó': case 'ú': case 'ñ':
+                //case 'Á': case 'É': case 'Í': case 'Ó': case 'Ú': case 'Ñ':
+                //case 'á': case 'é': case 'í': case 'ó': case 'ú': case 'ñ':
 				case '0': case '1': case '2': case '3': case '4': case '5':
 				case '6': case '7': case '8': case '9':
 				case '!': case '#': case '$': case '%': case '&':
@@ -161,7 +200,7 @@ bool isVarName(string str) {
 				case '|': case '!': case '#': case '$': case '%': case '&':
             	case '(': case ')': case '[': case ']': case '{': case '}': 
 				case '.': case '<': case '>': case ':': case ';': case '/':
-				case '\\': case '?':case '@': case '*': case '=': case '+':
+				case '?': case '@': case '*': case '=': case '+':
 				case '^': case '`': case ',': case '-': case '~':
 				return false;
 			}
@@ -175,12 +214,12 @@ bool isVarName(string str) {
                 case 'h': case 'i': case 'j': case 'k': case 'l': case 'm': case 'n':
                 case 'o': case 'p': case 'q': case 'r': case 's': case 't': case 'u':
                 case 'v': case 'w': case 'x': case 'y': case 'z':
-                case 'Á': case 'É': case 'Í': case 'Ó': case 'Ú': case 'Ñ':
-                case 'á': case 'é': case 'í': case 'ó': case 'ú': case 'ñ':
+                //case 'Á': case 'É': case 'Í': case 'Ó': case 'Ú': case 'Ñ':
+                //case 'á': case 'é': case 'í': case 'ó': case 'ú': case 'ñ':
 				case '0': case '1': case '2': case '3': case '4': case '5':
 				case '6': case '7': case '8': case '9':
 				case '!': case '#': case '$': case '<': case '>': case ':':
-				case '/': case '\\': case '?': case '_': case '`': case '~':
+				case '/': case '?': case '_': case '`': case '~':
 					break;
 				default:
 					return false;
@@ -191,19 +230,4 @@ bool isVarName(string str) {
 
 bool compareStr(string str1, string str2) {
 	return str1.compare(str2) == 0;
-}
-
-int declaration(char* sentencia) 
-{
-	return 0;
-}
-
-int assign(char* sentencia)
-{
-	return 0;
-}
-
-int func(char* sentencia)
-{
-	return 0;
 }

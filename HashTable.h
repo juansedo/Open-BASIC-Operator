@@ -2,21 +2,22 @@
 #define HASH_TABLE
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
 class Variables {
 private:
-    //string key;
+    vector<string> keys;
     float* values;
     int size;
 
     int hashFunction(string str) {
-        int sum = 0;
-        for(int i = 0; i < sizeof(str)/sizeof(string); i++) {
-            sum += ((int)str.at(i))*i + pow(10,i);
+        int hash = 7;
+        for (int i = 0; i < str.size(); i++) {
+            hash = hash*31 + str.at(i);
         }
-        return sum % size;
+        return hash % size;
     }
 public:
     Variables(int size = 100) {
@@ -26,10 +27,17 @@ public:
 
     void put(string k, float v) {
         values[hashFunction(k)] = v;
+        keys.push_back(k);
     }
     
     float get(string k) {
-        return values[hashFunction(k)];
+        for (auto i = keys.begin(); i != keys.end(); i++) {
+            if(k.compare(*i)) {
+                return values[hashFunction(k)];
+            }
+        }
+        throw "Error: key does not exist";
     }
+
 };
 #endif
