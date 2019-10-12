@@ -7,7 +7,7 @@
 "Start Symbol"   = <Program>
 
 ! BNF based on https://rosettacode.org/wiki/BNF_Grammar
-! ----------------------------------------------------------------- Sets
+! ----------------------------------------------------------------- Terminals
 
 <Letter>        ::= 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G'
                   | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N'
@@ -30,36 +30,37 @@
                   | '@' | '*' | '=' | '+' | '^' | '_' | '`'
                   | ',' | '-' | '~'
 
-<String Chars>  = ([<Letter>][<Symbol>][<Digit>])*
-
-! ----------------------------------------------------------------- Terminals
-
 <NewLine>        = '\n'
 
-Comment Line   ::= "(*" <String Chars> "*)"
+<Type>  ::= Num
 
-<Identifier>   ::= <Letter>['_' | '#'][<Digit>]([<Letter>]['_' | '#'][<Digit>])*
-               
-! -------------- Possibly String add
-<StringLiteral>::= (" {String Chars} " ['&'])*
+<Compare Op>    ::= '=' | '<>' | '<' | '>' | '>=' | '<='
+
+! ----------------------------------------------------------------- Data types
+
+<Number>   ::= ['-']<Digit>+['.'<Digit>+]
+
+<String>   ::= ([<Letter>][<Symbol>][<Digit>])*
+
+<StringLiteral>::= (" {String} " ['&'])*
 
 <CharLiteral>  ::= ' {Letter} '
                | ' {Symbol} '
                | ' {Digit} '
-! -------------
 
-<NumLiteral>   ::= [+-]<Digit>+['.'<Digit>+]
+<Identifier>   ::= <Letter>['_' | '#'][<Digit>]([<Letter>]['_' | '#'][<Digit>])*
+
+<Comment Line> ::= "(*" <String> "*)"
 
 ! ----------------------------------------------------------------- Rules
 
 <Program>    ::= Sub <Name>: <NewLine> <Item> End
                 |
-                
-<Implements>    ::= Implements <ID List> 
 
-<Option Decl>   ::= Option <IDs> <NL>
+<Name> ::= Main
+        | <String>
 
-<Compare Op>    ::= '=' | '<>' | '<' | '>' | '>=' | '<='
+
 
 <Item> ::= <Declaration> <NewLine> <Item>
         | <Sentence> <NewLine> <Item>
@@ -67,313 +68,15 @@ Comment Line   ::= "(*" <String Chars> "*)"
 
 <Declaration>   ::= '@'<Identifier> '<=' <Type>
 
-<Type>  ::= Num
+<Sentence> ::= <Identifier> '=' <Expression>
+        | <Expression>
 
-<Sentence>      ::= 
+<Expression> ::= <Number> <Op> <Expression>
+                | <Number>
+                | ~Read
+                | <Print>
 
-! -------------------------------------------------------------------
-! Parameters
-! -------------------------------------------------------------------
+<Print> ::= ~Print <String>
+        | ~Print <Number>
 
-<Param List Opt> ::= <Param List>
-                   |
-
-<Param List>     ::= '(' <Param Items> ')'
-                   | '(' ')'
- 
-<Param Items>    ::= <Param Item> ',' <Param Items>
-                   | <Param Item>
-
-<Param Item>     ::= <Param Passing> ID <Type> 
-
-
-<Param Passing>  ::= ByVal
-                   | ByRef
-                   | Optional 
-                   | ParamArray
-                   |
-
-! -------------------------------------------------------------------
-! Arguments 
-! -------------------------------------------------------------------
-
-<Argument List Opt> ::= <Argument List>
-                      |
-                       
-<Argument List>  ::= '(' <Argument Items> ')'
-              
-<Argument Items> ::= <Argument> ',' <Argument Items>
-                   | <Argument>
-
-<Argument>       ::= <Expression>
-                   | Id ':=' <Expression>
-                   |
-                   
-! -------------------------------------------------------------------
-! Declares (External Procedures)   
-! -------------------------------------------------------------------
-
-<Declare> ::= <Attributes> <Modifiers> Declare <Charset> Sub      ID Lib StringLiteral <Alias> <Param List Opt> <NL>
-            | <Attributes> <Modifiers> Declare <Charset> Function ID Lib StringLiteral <Alias> <Param List Opt> <Type> <NL>
-
-<Charset> ::= Ansi | Unicode | Auto |  !Null
-
-<Alias> ::= Alias StringLiteral
-          |
-
-
-! -------------------------------------------------------------------
-! Methods
-! -------------------------------------------------------------------
-
-<Method> ::= <Attributes> <Modifiers> Sub <Sub ID> <Param List>        <Handles Or Implements> <NL> <Statements> End Sub <NL>
-           | <Attributes> <Modifiers> Function ID  <Param List> <Type> <Handles Or Implements> <NL> <Statements> End Function <NL>
-                
-<Sub ID>     ::= ID
-               | New     !Class creation
-
-<Handles Or Implements> ::= <Implements> 
-                          | <Handles>
-                          | 
-
-<Handles>      ::= Handles <ID List>
-
-! -------------------------------------------------------------------
-! Properties
-! -------------------------------------------------------------------
-                 
-<Property>   ::= <Attributes> <Modifiers> Property ID <Param List> <Type> <NL> <Property Items> End Property <NL>
-
-<Property Items> ::= <Property Item> <Property Items>          
-                   |
-
-<Property Item> ::= Get <NL> <Statements> End Get <NL>
-                  | Set <Param List> <NL> <Statements> End Set <NL>
-
-
-! ------------------------------------------------------------------- 
-! Enumerations
-! ------------------------------------------------------------------- 
-
-<Enumeration>   ::= <Attributes> <Modifiers> Enum ID <NL> <Enum List> End Enum <NL>
-
-<Enum List>     ::= <Enum Item> <Enum List>
-                  | 
-
-<Enum Item>     ::= Id '=' <Expression> <NL>
-                  | Id <NL>
-
-! -------------------------------------------------------------------
-! Variable Declaration
-! -------------------------------------------------------------------
-
-<Var Decl> ::= <Var Decl Item> ',' <Var Decl>
-             | <Var Decl Item>
-                  
-<Var Decl Item>  ::= <Var Decl ID> tipo <Identifier> <Argument List Opt>             
-                   | <Var Decl ID> tipo <Identifier> '=' <Expression>         !Initialize                                        
-                   | <Var Decl ID> tipo Nuevo <Identifier> <Argument List Opt>
-                   | <Var Decl ID>
-                   | <Var Decl ID> '=' <Expression>                          !Initialize 
-
-<Var Decl ID> ::= ID <Argument List Opt> 
-                
-! ------------------------------------------------------------------- 
-! Normal Statements
-! -------------------------------------------------------------------
-
-<Statements>  ::= <Statement> <Statements>
-                | 
-
-<Statement>   ::= <Loop Stm>
-                | <For Stm>
-                | <If Stm>                 
-                | <Select Stm> 
-                | <SyncLock Stm>
-                | <Try Stm>               
-                | <With Stm>
-                | <Option Decl>                   
-                | <Local Decl>    
-                | <Non-Block Stm> <NL>       !Note the <NL>. A non-block statement can be a full statement
-                | LABEL           <NL>  
-                                
-                              
-<Non-Block Stm> ::= Call <Variable>
-                  | ReDim <Var Decl>  
-                  | ReDim Preserve <Var Decl>
-                  | Erase ID 
-     
-                  | Throw <Value>                                    
-                  | RaiseEvent <Identifier>  <Argument List Opt>
-                  | AddHandler <Expression> ',' <Expression>
-                  | RemoveHandler  <Expression> ',' <Expression>
-    
-                  | Exit Do 
-                  | Exit For                  
-                  | Exit Function            
-                  | Exit Property                   
-                  | Exit Select      
-                  | Exit Sub    
-                  | Exit Try
-                  | Exit While
-                  | GoTo ID                   !Argh - they still have this
-                  | Return <Value>           
-
-                  | Error <Value>                      !Raise an error by number
-                  | On Error GoTo IntLiteral           ! 0  This is obsolete.   
-                  | On Error GoTo '-' IntLiteral       !-1  This is obsolete.
-                  | On Error GoTo Id      
-                  | On Error Resume Next 
-                  | Resume ID 
-                  | Resume Next 
-                  
-                  | <Variable> <Assign Op> <Expression> 
-                  | <Variable>       
-                  | <Method Call>         
-
-<Assign Op>   ::= '=' | '^=' | '*=' | '/=' | '\=' | '+=' | '-=' | '&=' | '<<=' | '>>='
-
-
-! ------------------------------------------------------------------- 
-! Local declarations
-! -------------------------------------------------------------------
-
-<Local Decl>  ::= Dim    <Var Decl>  <NL>
-                | Const  <Var Decl>  <NL>
-                | Static <Var Decl>  <NL> 
-
-! -------------------------------------------------------------------
-! If Statement
-! -------------------------------------------------------------------
-
-<If Stm>    ::= If <Expression> <Then Opt> <NL> <Statements> <If Blocks> End If <NL> 
-              | If <Expression> Then <Non-Block Stm> <NL>
-              | If <Expression> Then <Non-Block Stm> Else <Non-Block Stm> <NL>
-
-<Then Opt>  ::= Then         !!The reserved word 'Then' is optional for Block-If statements
-              |
-
-<If Blocks> ::= ElseIf <Expression> <Then Opt> <NL> <Statements> <If Blocks>
-              | Else <NL> <Statements>
-              |
-
-! -------------------------------------------------------------------
-! Select Statement
-! -------------------------------------------------------------------
-
-<Select Stm>    ::= Select <Case Opt> <Expression> <NL> <Select Blocks> End Select <NL>
-
-<Case Opt>      ::= Case                         !!The "Case" after Select is optional in VB.NEt
-                  |
-
-
-<Select Blocks> ::= Case <Case Clauses> <NL> <Statements>  <Select Blocks>
-                  | Case Else <NL> <Statements>  
-                  |                 
-
-<Case Clauses>  ::= <Case Clause> ',' <Case Clauses>
-                  | <Case Clause> 
-
-<Case Clause>   ::= <Is Opt> <Compare Op> <Expression>
-                  | <Expression> 
-                  | <Expression> To <Expression>
-
-<Is Opt> ::= Is 
-           | !Null
-
-! -------------------------------------------------------------------
-! SyncLock Statement
-! -------------------------------------------------------------------
-
-<SyncLock Stm> ::= SyncLock <NL> <Statements> End SyncLock <NL>             
-
-! -------------------------------------------------------------------
-! Try Statement
-! -------------------------------------------------------------------
-
-<Try Stm>      ::= Try <NL> <Statements> <Catch Blocks> End Try <NL>  
-
-<Catch Blocks> ::= <Catch Block> <Catch Blocks>
-                 | <Catch Block>
-
-<Catch Block>  ::= Catch <Identifier>  As ID <NL> <Statements> 
-                 | Catch <NL> <Statements>
-
-! -------------------------------------------------------------------
-! With Statement
-! -------------------------------------------------------------------
-
-<With Stm> ::= With <Value> <NL> <Statements> End With <NL>
-                  
-! -------------------------------------------------------------------
-! Expressions
-! -------------------------------------------------------------------
-
-<Expression>  ::= <And Exp> Or     <Expression> 
-                | <And Exp> OrElse <Expression> 
-                | <And Exp> XOr    <Expression> 
-                | <And Exp> 
-
-<And Exp>     ::= <Not Exp> And     <And Exp> 
-                | <Not Exp> AndAlso <And Exp> 
-                | <Not Exp> 
- 
-<Not Exp>     ::= NOT <Compare Exp>
-                | <Compare Exp>
-
-<Compare Exp> ::= <Shift Exp> <Compare Op> <Compare Exp>       !e.g.  x < y
-                | TypeOf <Add Exp> Is <Object>
-                | <Shift Exp> Is <Object>
-                | <Shift Exp> Like <Value>
-                | <Shift Exp>
-
-<Shift Exp>   ::= <Concat Exp> '<<' <Shift Exp>  
-                | <Concat Exp> '>>' <Shift Exp>  
-                | <Concat Exp> 
-
-<Concat Exp>  ::= <Add Exp> '&' <Concat Exp>
-                | <Add Exp>
-
-<Add Exp>     ::= <Modulus Exp> '+' <Add Exp> 
-                | <Modulus Exp> '-' <Add Exp> 
-                | <Modulus Exp>  
-
-<Modulus Exp> ::= <Int Div Exp> Mod <Modulus Exp> 
-                | <Int Div Exp>
-
-<Int Div Exp> ::= <Mult Exp> '\' <Int Div Exp>                 
-                | <Mult Exp>
-
-<Mult Exp>    ::= <Negate Exp> '*' <Mult Exp> 
-                | <Negate Exp> '/' <Mult Exp> 
-                | <Negate Exp> 
-
-<Negate Exp>  ::= '-' <Power Exp> 
-                | <Power Exp> 
-
-<Power Exp>   ::= <Power Exp> '^' <Value> 
-                | <Value> 
-
-<Value>       ::= '(' <Expression> ')'                
-                | New <Identifier> <Argument List Opt>
-                | IntLiteral 
-                | HexLiteral
-                | OctLiteral
-                | StringLiteral 
-                | CharLiteral
-                | RealLiteral
-                | DateLiteral 
-                | True
-                | False
-                | Me 
-                | MyClass 
-                | MyBase
-                | Nothing
-                | <Variable>
-                | AddressOf <Identifier>
-
-<Variable>    ::= <Identifier> <Argument List Opt> <Method Calls> 
-                                
-<Method Calls> ::= <Method Call> <Method Calls>
-                 | 
-<Method Call>  ::= MemberID <Argument List Opt>
+<Op>    ::= '+' | '-' | '*' | '/' | Mod
