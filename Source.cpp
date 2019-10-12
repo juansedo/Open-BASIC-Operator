@@ -111,16 +111,20 @@ int main () {
 				if (compareStr(word.substr(1), "Print")) {
 					ss >> word;
 					try {
-						cout << stoi(word) << endl;
-					} catch(invalid_argument& e) {
-						cout << vars.get(word) << endl;
-					} catch(const char* e) {
-						cout << "Warning: " << word << "was not declared, line " << i << endl;
-						myfile.close();
-						return 0;
+						float f = stof(word);
+						cout << stof(word) << endl;
 					}
-					if (ss) cout << word << endl;
-					else cout << endl;
+					catch (invalid_argument& e) {
+						try {
+							float f = vars.get(word);
+							cout << f << endl;
+						}
+						catch (const char* e) {
+							cout << "Error: " << word << " was not declared, line " << i << endl;
+							myfile.close();
+							return 0;
+						}
+					}
 				}
 				
 				else if (compareStr(word.substr(1), "Read")) {
@@ -134,6 +138,11 @@ int main () {
 				}
 			}
 			else {
+				if (!ss) {
+					ss.str("");
+					ss.clear();
+					continue;
+				}
 				/************************ASSIGNATION**************************/
 				//var = 5 + 2
 				//num = var + 3
@@ -144,7 +153,7 @@ int main () {
 					var_to_assign = word;
 				}
 				catch (const char* e) {
-					cout << e << "in line " << i << endl;
+					cout << e << " in line " << i << endl;
 					myfile.close();
 					return 0;
 				}

@@ -32,7 +32,7 @@ public:
     
     float get(string k) {
         for (auto i = keys.begin(); i != keys.end(); i++) {
-            if(k.compare(*i)) {
+            if(k.compare(*i) == 0) {
                 return values[hashFunction(k)];
             }
         }
