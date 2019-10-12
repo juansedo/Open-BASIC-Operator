@@ -110,8 +110,15 @@ int main () {
 				/*Print function comprobation*/
 				if (compareStr(word.substr(1), "Print")) {
 					ss >> word;
-
-					/*Agregar caso de variable y de número*/
+					try {
+						cout << stoi(word) << endl;
+					} catch(invalid_argument& e) {
+						cout << vars.get(word) << endl;
+					} catch(const char* e) {
+						cout << "Warning: " << word << "was not declared, line " << i << endl;
+						myfile.close();
+						return 0;
+					}
 					if (ss) cout << word << endl;
 					else cout << endl;
 				}
