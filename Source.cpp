@@ -8,50 +8,72 @@ int main () {
 	string line;
 	bool isDeclaration;
 	bool isSentence;
+	bool thisEnded;
 
   	ifstream myfile ("example.txt");
   	if (myfile.is_open()) {
     	getline(myfile, line);
-		stringstream ss(line);
+		Variables v;
+		stringstream first(line);
 		string word;
-		
+
 		/*It must have Begin keyword*/
-		ss >> word;
+		first >> word;
 		if (!word.compare("Begin")) {
-			cout << "Error: Missing \"Begin\" keyword in line 01";
+			cout << "Error: missing \"Begin\" keyword in line 01";
 			return 0;
 		}
 		
 		/*It must have the dots at the end*/
-		ss >> word;
+		first >> word;
 		if (!(word.at(word.size()) == ':')) {
-			cout << "Error: Expected \":\" in line 01";
+			cout << "Error: expected \":\" in line 1";
 			return 0;
 		}
 		if(!isFuncName(word)) {
-			cout << "Error: Expected \":\" in line 01";
+			cout << "Error: expected \":\" in line 1";
 			return 0;
 		}
 
+		if (first) {
+			cout << "Error: too many arguments";
+			return 0;
+		}
 
 		while ( getline (myfile, line)) {
       		/*Line is put into a stream*/
 			stringstream ss(line);
-			do {
+			string word;
+			string newVariable;
+			for (int i = 0; ss; i++) {
 				/*Each word of line is evaluated*/
-				string word;
+				
 				ss >> word;
 
+				/*We search does what mean the word*/
 				switch(word.at(0)) {
 					case '@':
-
+						//declaration case
+						if (!newVariable.empty) {
+							cout << "Error: wrong declaration in line " << i + 1;
+							return 0;
+						}
+						newVariable = word.substr(1);
+						break;
+					case '~':
+						//Function case
+						break;
+					default:
+						//Expression case
+						string word2;
+						v.put(word, );
+						break;
 				}
-
-			} while (ss);
+			}
     	}
     	myfile.close();
   	}
-  	else cout << "Error: Unable to open file"; 
+  	else cout << "Error: unable to open file"; 
 	
 	system("pause");
 	return 0;
