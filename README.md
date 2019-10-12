@@ -19,7 +19,7 @@ Descarga todo el proyecto en una sola carpeta y ejecuta el código Source.cpp ca
 ifstream fe("Dirección_del_archivo_.obo");
 ```
 
-## Built With
+## Fuentes
 
 * [BNF_Grammar](https://rosettacode.org/wiki/BNF_Grammar) - Documentación en la que nos basamos
 * [PurpleBooth's template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) - Formato para README.md

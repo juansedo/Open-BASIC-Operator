@@ -8,7 +8,7 @@ Sub Main
     ~Print Resultado
     
     Resultado = 6 * Resultado + 3
-    ~Imprimir Resultado
+    ~Print Resultado
     
     @Texto <= String
     
