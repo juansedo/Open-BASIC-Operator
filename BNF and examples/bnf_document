@@ -56,21 +56,23 @@
 <Name> ::= Main
         | <String>
 
-
-
 <Item> ::= <Declaration> <NewLine> <Item>
         | <Sentence> <NewLine> <Item>
+        | <NewLine> <Item>
         |
 
 <Declaration>   ::= '@'<Identifier> '<=' <Type>
 
 <Sentence> ::= <Identifier> '=' <Expression>
-        | <Expression>
+        | <Function>
 
-<Expression> ::= <Number> <Op> <Expression>
+<Expression> ::= <Number> <Expression> <Op>
+                | <Expression> <Number> <Op>
                 | <Number>
-                | ~Read
-                | <Print>
+                | <Function>
+
+<Function> ::= <Print>
+            | ~Read
 
 <Print> ::= ~Print <Identifier>
         | ~Print <Number>
