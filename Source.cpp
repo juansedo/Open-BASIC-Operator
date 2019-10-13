@@ -165,8 +165,7 @@ int main () {
 					return 0;
 				}
 
-				/*KY*/
-        ss >> word;
+				ss >> word;
 				vector <float> sol;
 				int count = 0;
 				while(ss)
@@ -230,8 +229,7 @@ int main () {
 						sol.push_back(a / b);
 						count = 1;
 					}
-          ss >> word;
-
+					ss >> word;
 				}
 				vars.put(var_to_assign, sol.back());
 			   	}
@@ -243,7 +241,6 @@ int main () {
 				else cout << "Error: unable to open file"; 
 				return 0;
 
-				
 			}
 
 bool isFuncName(string str) {
