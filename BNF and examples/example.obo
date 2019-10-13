@@ -1,6 +1,6 @@
-Sub Main
+Begin Main
     @Núm1 <= Num
-    @Núm2 <= Num
+    @N+úm2 <= Num
     @Resultado <= Num
     
     Núm1 = 5
@@ -13,4 +13,4 @@ Sub Main
     @Texto <= String
     
     Texto = ~Read
-End Sub
+End
