@@ -1,4 +1,3 @@
-#include "HashTable.h"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -16,7 +15,7 @@ int main () {
 	bool isSentence;
 	bool thisEnded;
 
-  	ifstream myfile ("./BNF and examples/example.obo");
+  	ifstream myfile ("Obito.txt");
   	if (myfile.is_open()) {
     	getline(myfile, line);
 		Variables vars;
@@ -167,16 +166,85 @@ int main () {
 				}
 
 				/*KY*/
+        ss >> word;
+				vector <float> sol;
+				int count = 0;
+				while(ss)
+				{	
+					if(count > 2)
+					{
+						cout << "Error: wrong operation format in line " << i << endl;
+					}
+					
+					if(isVarName(word))
+					{ 
+						sol.push_back(vars.get(word));
+						count++;
+					}
+					else if (isdigit(word[0]))
+					{
+						sol.push_back(stof(word));
+						count++;
+					}
+					else if(word == "+")
+					{
+					if(count < 2){cout << "Error: missing arguments in line " << i << endl;
+          return 0;}
+					float a = sol.back();
+					sol.pop_back();
+					float b = sol.back();
+					sol.pop_back();
+					sol.push_back(a + b);
+					count = 1;
+					}
+					else if(word == "*")
+					{
+						if(count < 2){cout << "Error: missing arguments in line " << i << endl;
+            return 0;}
+						float a = sol.back();
+						sol.pop_back();
+						float b = sol.back();
+						sol.pop_back();
+						sol.push_back(a * b);
+						count = 1;
+					}
+					else if(word == "-")
+					{
+						if(count < 2){cout << "Error: missing arguments in line " << i << endl;
+            return 0;}
+						float a = sol.back();
+						sol.pop_back();
+						float b = sol.back();
+						sol.pop_back();
+						sol.push_back(a - b);
+						count = 1;
+					}
+					else if(word == "/")
+					{
+						if(count < 2){cout << "Error: missing arguments in line " << i << endl;
+            return 0;}
+						float a = sol.back();
+						sol.pop_back();
+						float b = sol.back();
+						sol.pop_back();
+						sol.push_back(a / b);
+						count = 1;
+					}
+          ss >> word;
+
+				}
+				vars.put(var_to_assign, sol.back());
+			   	}
+						ss.str("");
+						ss.clear();
+					}
+					myfile.close();
+				}
+				else cout << "Error: unable to open file"; 
+				return 0;
+
+				
 			}
-			
-			ss.str("");
-			ss.clear();
-    	}
-    	myfile.close();
-  	}
-  	else cout << "Error: unable to open file"; 
-	return 0;
-}
 
 bool isFuncName(string str) {
 	for (char c: str) {
