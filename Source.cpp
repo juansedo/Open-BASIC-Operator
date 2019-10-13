@@ -185,6 +185,20 @@ int main () {
 						sol.push_back(stof(word));
 						count++;
 					}
+					else if(word[0] == '~')
+					{
+						if(compareStr(word.substr(1), "Read"))
+						{
+							float a;
+							cin >> a;
+							sol.push_back(a);
+							count++;
+						}
+						else
+						{
+							cout << "Error: invalid function in line " << i << endl;
+						}
+					}
 					else if(word == "+")
 					{
 					if(count < 2){cout << "Error: missing arguments in line " << i << endl;
