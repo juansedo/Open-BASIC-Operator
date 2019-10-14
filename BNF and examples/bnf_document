@@ -46,7 +46,7 @@
 
 <Identifier>   ::= <Letter>['_' | '#'][<Digit>]([<Letter>]['_' | '#'][<Digit>])*
 
-<Comment Line> ::= "(*" <String> "*)"
+<Comment Line> ::= "//" <String>
 
 ! ----------------------------------------------------------------- Rules
 
