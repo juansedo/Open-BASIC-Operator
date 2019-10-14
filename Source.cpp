@@ -15,7 +15,7 @@ int main () {
 	bool isSentence;
 	bool thisEnded;
 
-  	ifstream myfile ("Obito.txt");
+  	ifstream myfile ("test.obo");
   	if (myfile.is_open()) {
     	getline(myfile, line);
 		Variables vars;
