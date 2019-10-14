@@ -187,8 +187,16 @@ int main () {
 					}
 					else if (isdigit(word[0]))
 					{
-						sol.push_back(stof(word));
-						count++;
+						try
+						{
+							sol.push_back(stof(word));
+							count++;
+						}
+						catch(exception e)
+						{
+							cout << "Error, not a nunmber in line " << i << endl;
+							return 0;
+						}
 					}
 					else if(word[0] == '~')
 					{
