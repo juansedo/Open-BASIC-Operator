@@ -64,6 +64,11 @@ int main () {
       		/*Line is put into a stream*/
 			ss << line;
 			ss >> word;
+			if (compareStr(word, "//") || compareStr(word.substr(0,2), "//")) {
+				ss.str("");
+				ss.clear();
+				continue;
+			}
 			string newVariable;
 
 			if (word.at(0) == '@') {
