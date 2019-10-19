@@ -175,11 +175,6 @@ int main () {
 				int count = 0;
 				while(ss)
 				{	
-					if(count > 2)
-					{
-						cout << "Error: wrong operation format in line " << i << endl;
-					}
-					
 					if(isVarName(word))
 					{ 
 						sol.push_back(vars.get(word));
@@ -221,7 +216,7 @@ int main () {
 					float b = sol.back();
 					sol.pop_back();
 					sol.push_back(a + b);
-					count = 1;
+					count -= 1;
 					}
 					else if(word == "*")
 					{
@@ -232,7 +227,7 @@ int main () {
 						float b = sol.back();
 						sol.pop_back();
 						sol.push_back(a * b);
-						count = 1;
+						count -= 1;
 					}
 					else if(word == "-")
 					{
@@ -243,7 +238,7 @@ int main () {
 						float b = sol.back();
 						sol.pop_back();
 						sol.push_back(a - b);
-						count = 1;
+						count -= 1;
 					}
 					else if(word == "/")
 					{
@@ -254,7 +249,7 @@ int main () {
 						float b = sol.back();
 						sol.pop_back();
 						sol.push_back(a / b);
-						count = 1;
+						count -= 1;
 					}
 					ss >> word;
 				}
