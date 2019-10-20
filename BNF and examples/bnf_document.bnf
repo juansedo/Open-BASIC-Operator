@@ -32,8 +32,6 @@
 
 <Type>  ::= Num
 
-<Compare Op>    ::= '=' | '<>' | '<' | '>' | '>=' | '<='
-
 ! ----------------------------------------------------------------- Data types
 
 <Number>   ::= ['-']<Digit>+['.'<Digit>+]
@@ -46,7 +44,7 @@
 
 <Identifier>   ::= <Letter>['_' | '#'][<Digit>]([<Letter>]['_' | '#'][<Digit>])*
 
-<Comment Line> ::= "//" <String>
+<Comment Line> ::= '//' <String>
 
 ! ----------------------------------------------------------------- Rules
 
@@ -66,10 +64,22 @@
 <Sentence> ::= <Identifier> '=' <Expression>
         | <Function>
 
-<Expression> ::= <Number> <Expression> <Op>
-                | <Expression> <Number> <Op>
-                | <Number>
+<Expression> ::= <PosfixExpr>
+                | <InfixExpr>
                 | <Function>
+
+<PosfixExpr> ::= <Number> <PosfixExpr> <Op>
+                | <PosfixExpr> <Number> <Op>
+                | <Number>
+                | <Identifier>
+                | ~Read
+
+<InfixExpr> ::= <Number> <Op> <InfixExpr>
+                | <InfixExpr> <Op> <Number>
+                | '('<InfixExpr>')'
+                | <Number>
+                | <Identifier>
+                | ~Read
 
 <Function> ::= <Print>
             | ~Read
