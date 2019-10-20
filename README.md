@@ -15,6 +15,9 @@ IDE para ejecutar el código desde ahí.
 
 Descarga todo el proyecto en una sola carpeta y ábrelo en Visual Studio Code. Si vas a ejecutar
 tu propio código de OBO, debes ponerlo en esta carpeta.
+
+### Instrucciones de uso
+
 Desde la terminal ingresa los siguientes comandos para compilar y ejecutar:
 
 ```

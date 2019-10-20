@@ -14,7 +14,7 @@ int main () {
 	string line;
 	cout << "Type filename that you want to read, (.obo only):" << endl;
 	getline(cin, line);
-  	ifstream myfile (line);
+  	ifstream myfile ("./" + line);
   	if (myfile.is_open()) {
     	getline(myfile, line);
 		Variables vars;
