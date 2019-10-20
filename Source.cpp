@@ -1,5 +1,4 @@
-#include "HashTable.cpp"
-#include <iostream>
+#include "HashTable.h"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -13,11 +12,9 @@ bool compareStr(string str1, string str2);
 
 int main () {
 	string line;
-	bool isDeclaration;
-	bool isSentence;
-	bool thisEnded;
-
-  	ifstream myfile ("test.obo");
+	cout << "Type filename that you want to read, (.obo only):" << endl;
+	getline(cin, line);
+  	ifstream myfile (line);
   	if (myfile.is_open()) {
     	getline(myfile, line);
 		Variables vars;

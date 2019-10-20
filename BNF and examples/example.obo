@@ -1,6 +1,6 @@
-Begin Main
-    @Núm1 <= Num
-    @N+úm2 <= Num
+Begin Main:
+    @Num1 <= Num
+    @Num2 <= Num
     @Resultado <= Num
     
     Núm1 = 5
