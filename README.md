@@ -13,11 +13,26 @@ IDE para ejecutar el código desde ahí.
 
 ### Instalación
 
-Descarga todo el proyecto en una sola carpeta y ejecuta el código Source.cpp cambiando el nombre del archivo que se lee.
+Descarga todo el proyecto en una sola carpeta y ábrelo en Visual Studio Code. Si vas a ejecutar
+tu propio código de OBO, debes ponerlo en esta carpeta.
+Desde la terminal ingresa los siguientes comandos para compilar y ejecutar:
 
 ```
-ifstream fe("Dirección_del_archivo_.obo");
+> g++ -o main.exe Source.cpp
+
+> ./main.exe
 ```
+
+Te pedirá un nombre de archivo:
+```
+Type filename that you wnat to read (.obo only):
+```
+Deberás escribir la ruta donde está el archivo (si es que está en una carpeta) o directamente su nombre.
+Mira el ejemplo por defecto del proyecto:
+```
+>BNF and examples/example.obo
+```
+
 
 ## Fuentes
 
