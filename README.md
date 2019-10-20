@@ -38,9 +38,9 @@ Mira el ejemplo por defecto del proyecto:
 
 ### Codificar en OBO
 
-Por el momento, este lenguaje solo admite la lectura de documentos y no tiene ejecución intecractiva como
+Por el momento, este lenguaje solo admite la lectura de documentos y no tiene ejecución interactiva como
 Haskell a través de GHCi. Mira el [Backus-Naur Form](https://github.com/juansedo/Open-BASIC-Operator/blob/master/BNF%20and%20examples/bnf_document) del programa, compara con el archivo de ejemplo y aprende a 
-programar en OBO.
+programar en OBO. Cualquier duda, consulta con alguno de los autores que aparecen más abajo.
 
 ## Fuentes
 
