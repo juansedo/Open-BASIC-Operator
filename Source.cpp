@@ -10,11 +10,38 @@ bool isVarName(string str);
 
 bool compareStr(string str1, string str2);
 
+float operar(string word, float a, float b)
+{
+	if(word == "+")
+		{
+			return a+b;
+		}
+	else if(word == "*")
+		{
+			return a*b;
+		}
+	else if(word == "-")
+		{
+			return a-b;
+		}
+	else if(word == "/")
+		{
+			return a/b;
+		}
+		else
+		{
+			return 0;
+		}
+
+}
+
 int main () {
 	string line;
-	cout << "Type filename that you want to read, (.obo only):" << endl;
-	getline(cin, line);
-  	ifstream myfile ("./" + line);
+	bool isDeclaration;
+	bool isSentence;
+	bool thisEnded;
+
+  	ifstream myfile ("Obito.txt");
   	if (myfile.is_open()) {
     	getline(myfile, line);
 		Variables vars;
@@ -69,7 +96,6 @@ int main () {
 				continue;
 			}
 			string newVariable;
-
 			if (word.at(0) == '@') {
 				/************************DECLARATION**************************/
 				//@var <= Num
@@ -87,7 +113,7 @@ int main () {
 					return 0;
 				}
 
-				/*Assignation operator*/
+				/*Assignation operar*/
 				ss >> word;
 				if (!compareStr(word, "<=")) {
 					cout << "Error: expected \"<=\" in line " << i << endl;
@@ -161,7 +187,7 @@ int main () {
 					return 0;
 				}
 				
-				/*Assignation operator*/
+				/*Assignation operar*/
 				ss >> word;
 				if (!compareStr(word, "=")) {
 					cout << "Error: expected \"=\" in line " << i << endl;
@@ -169,22 +195,43 @@ int main () {
 					return 0;
 				}
 
-				ss >> word;
-				vector <float> sol;
-				int count = 0;
+				/*KY*/
+        ss >> word;
+				vector <float> numeros;
+				vector <string> operadores;
 				while(ss)
 				{	
 					if(isVarName(word))
 					{ 
-						sol.push_back(vars.get(word));
-						count++;
+						if(numeros.size() > 0)
+						{
+							float temp = numeros.back();
+							numeros.pop_back();
+							numeros.push_back(operar(operadores.back(), temp, vars.get(word)));
+							operadores.pop_back();
+						}
+						else
+						{
+							numeros.push_back(vars.get(word));
+						}
+						
 					}
 					else if (isdigit(word[0]))
 					{
 						try
 						{
-							sol.push_back(stof(word));
-							count++;
+							if(numeros.size() > 0)
+							{
+								
+								float temp = numeros.back();
+								numeros.pop_back();
+								numeros.push_back(operar(operadores.back(), temp, stof(word)));
+								operadores.pop_back();
+							}
+							else
+							{
+								numeros.push_back(stof(word));
+							}
 						}
 						catch(exception e)
 						{
@@ -198,61 +245,45 @@ int main () {
 						{
 							float a;
 							cin >> a;
-							sol.push_back(a);
-							count++;
+							if(numeros.size() > 0)
+							{
+								float temp = numeros.back();
+								numeros.pop_back();
+								numeros.push_back(operar(operadores.back(), temp, a));
+								operadores.pop_back();
+							}
+							else
+							{
+								numeros.push_back(a);
+							}
 						}
 						else
 						{
 							cout << "Error: invalid function in line " << i << endl;
 						}
 					}
-					else if(word == "+")
+					else if(word == "(")
 					{
-					if(count < 2){cout << "Error: missing arguments in line " << i << endl;
-          return 0;}
-					float a = sol.back();
-					sol.pop_back();
-					float b = sol.back();
-					sol.pop_back();
-					sol.push_back(a + b);
-					count -= 1;
+						numeros.push_back(1);
+						operadores.push_back("*");
 					}
-					else if(word == "*")
+					else if(word == ")")
 					{
-						if(count < 2){cout << "Error: missing arguments in line " << i << endl;
-            return 0;}
-						float a = sol.back();
-						sol.pop_back();
-						float b = sol.back();
-						sol.pop_back();
-						sol.push_back(a * b);
-						count -= 1;
+						float temp = numeros.back();
+						numeros.pop_back();
+						float temp2 = numeros.back();
+						numeros.pop_back();
+						numeros.push_back(operar(operadores.back(), temp2, temp));
+						operadores.pop_back();
 					}
-					else if(word == "-")
+					else if(word == "+" || word == "-" || word == "*" || word == "/")
 					{
-						if(count < 2){cout << "Error: missing arguments in line " << i << endl;
-            return 0;}
-						float a = sol.back();
-						sol.pop_back();
-						float b = sol.back();
-						sol.pop_back();
-						sol.push_back(a - b);
-						count -= 1;
+						operadores.push_back(word);
 					}
-					else if(word == "/")
-					{
-						if(count < 2){cout << "Error: missing arguments in line " << i << endl;
-            return 0;}
-						float a = sol.back();
-						sol.pop_back();
-						float b = sol.back();
-						sol.pop_back();
-						sol.push_back(a / b);
-						count -= 1;
-					}
-					ss >> word;
+          			ss >> word;
+
 				}
-				vars.put(var_to_assign, sol.back());
+				vars.put(var_to_assign, numeros.back());
 			   	}
 						ss.str("");
 						ss.clear();
@@ -260,9 +291,13 @@ int main () {
 					myfile.close();
 				}
 				else cout << "Error: unable to open file"; 
+				system("pause");
 				return 0;
 
+				
 			}
+
+
 
 bool isFuncName(string str) {
 	for (char c: str) {
@@ -334,6 +369,7 @@ bool isVarName(string str) {
 					return false;
 			}
 	}
+
 	return true;
 }
 
