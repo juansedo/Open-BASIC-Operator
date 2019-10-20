@@ -28,14 +28,19 @@ Desde la terminal ingresa los siguientes comandos para compilar y ejecutar:
 
 Te pedirá un nombre de archivo:
 ```
-Type filename that you wnat to read (.obo only):
+Type filename that you want to read (.obo only):
 ```
 Deberás escribir la ruta donde está el archivo (si es que está en una carpeta) o directamente su nombre.
 Mira el ejemplo por defecto del proyecto:
 ```
->BNF and examples/example.obo
+> BNF and examples/example.obo
 ```
 
+### Codificar en OBO
+
+Por el momento, este lenguaje solo admite la lectura de documentos y no tiene ejecución intecractiva como
+Haskell a través de GHCi. Mira el [Backus-Naur Form](https://github.com/juansedo/Open-BASIC-Operator/blob/master/BNF%20and%20examples/bnf_document) del programa, compara con el archivo de ejemplo y aprende a 
+programar en OBO.
 
 ## Fuentes
 
