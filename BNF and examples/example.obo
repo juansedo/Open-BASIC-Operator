@@ -3,14 +3,10 @@ Begin Main:
     @Num2 <= Num
     @Resultado <= Num
     
-    Núm1 = 5
-    Resultado = Núm1 + 1
+    Num1 = 5
+    Resultado = Num1 + 1
     ~Print Resultado
     
     Resultado = 6 * Resultado + 3
     ~Print Resultado
-    
-    @Texto <= String
-    
-    Texto = ~Read
 End

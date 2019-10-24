@@ -195,7 +195,7 @@ int main()
 					ss.clear();
 					continue;
 				}
-				
+
 				if(compareStr(word, "End")) {
 					cout << "End line reached!" << endl;
 					break;
